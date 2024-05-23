@@ -1,5 +1,6 @@
 import React from 'react'
 import { WebEditorButtons } from '@/lib/constants'
+import { WebEditorAction } from './webEditor-actions'
 
 export type DeviceTypes = 'Desktop' | 'Mobile' | 'Tablet'
 

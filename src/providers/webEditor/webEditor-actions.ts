@@ -29,7 +29,7 @@ export type WebEditorAction =
 				id: ''
 				content: []
 				name: ''
-				styles: {}
+				styles: object
 				type: null
 			}
 		}

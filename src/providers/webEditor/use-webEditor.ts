@@ -7,5 +7,5 @@ export const useWebEditor = () => {
 		throw new Error('useWebEditor Hook must be used within the editor Provider')
 	}
 	return context
-  }
-  
+}
+

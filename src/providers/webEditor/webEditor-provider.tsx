@@ -26,8 +26,8 @@ export type WebEditor = {
 export type HistoryState = {
 	history: WebEditor[]
 	currentIndex: number
-  }
-  
+}
+
 export type WebEditorState = {
 	editor: WebEditor
 	history: HistoryState
@@ -38,42 +38,42 @@ export type WebEditorContextData = {
 	previewMode: boolean
 	setPreviewMode: (previewMode: boolean) => void
 	setDevice: (device: DeviceTypes) => void
-  }
-  
-  export const WebEditorContext = createContext<{
+}
+
+export const WebEditorContext = createContext<{
 	state: WebEditorState
 	dispatch: Dispatch<WebEditorAction>
 	pageId: string,
 	pageDetails: object | null
-  }>({
+}>({
 	state: initialState,
 	dispatch: () => undefined,
 	pageId: '',
 	pageDetails: null,
-  })
-  
-  type WebEditorProps = {
+})
+
+type WebEditorProps = {
 	children: React.ReactNode
 	pageId: string
 	pageDetails: object | null
-  }
-  
-  const WebEditorProvider = (props: WebEditorProps) => {
-	const [state, dispatch] = useReducer(WebEditorReducer, initialState)
-  
-	return (
-	<WebEditorContext.Provider
-		value={{
-		state,
-		dispatch,
-		pageId: props.pageId,
-		pageDetails: props.pageDetails,
-		}}
-	>
-		{props.children}
-	</WebEditorContext.Provider>
-	)
-  }
-  
+}
 
-  export default WebEditorProvider
+const WebEditorProvider = (props: WebEditorProps) => {
+	const [state, dispatch] = useReducer(WebEditorReducer, initialState)
+
+	return (
+		<WebEditorContext.Provider
+			value={{
+				state,
+				dispatch,
+				pageId: props.pageId,
+				pageDetails: props.pageDetails,
+			}}
+		>
+			{props.children}
+		</WebEditorContext.Provider>
+	)
+}
+
+
+export default WebEditorProvider

@@ -185,6 +185,103 @@ export const WebEditorReducer = (
       }
       return deletedState
 
+    case 'REDO':
+      if (state.history.currentIndex < state.history.history.length - 1) {
+        const nextIndex = state.history.currentIndex + 1
+        const nextEditorState = { ...state.history.history[nextIndex] }
+        const redoState = {
+          ...state,
+          editor: nextEditorState,
+          history: {
+            ...state.history,
+            currentIndex: nextIndex,
+          },
+        }
+        return redoState
+      }
+      return state
+
+    case 'UNDO':
+      if (state.history.currentIndex > 0) {
+        const prevIndex = state.history.currentIndex - 1
+        const prevEditorState = { ...state.history.history[prevIndex] }
+        const undoState = {
+          ...state,
+          editor: prevEditorState,
+          history: {
+            ...state.history,
+            currentIndex: prevIndex,
+          },
+        }
+        return undoState
+      }
+      return state
+
+    case 'CHANGE_DEVICE':
+      const changedDeviceState = {
+        ...state,
+        editor: {
+          ...state.editor,
+          device: action.payload.device,
+        },
+      }
+      return changedDeviceState
+
+    case 'TOGGLE_PREVIEW_MODE':
+      const toggleState = {
+        ...state,
+        editor: {
+          ...state.editor,
+          previewMode: !state.editor.previewMode,
+        },
+      }
+      return toggleState
+
+    case 'TOGGLE_LIVE_MODE':
+      const toggleLiveMode: WebEditorState = {
+        ...state,
+        editor: {
+          ...state.editor,
+          liveMode: action.payload
+            ? action.payload.value
+            : !state.editor.liveMode,
+        },
+      }
+      return toggleLiveMode
+
+    case 'LOAD_DATA':
+      return {
+        ...initialState,
+        editor: {
+          ...initialState.editor,
+          elements: action.payload.elements || initialWebEditorState.elements,
+          liveMode: !!action.payload.withLive,
+        },
+      }
+
+    case 'SET_PAGE_ID':
+      const { pageId } = action.payload
+      const updatedEditorStateWithPageId = {
+        ...state.editor,
+        pageId,
+      }
+
+      const updatedHistoryWithPageId = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateWithPageId },
+      ]
+
+      const pageIdState = {
+        ...state,
+        editor: updatedEditorStateWithPageId,
+        history: {
+          ...state.history,
+          history: updatedHistoryWithPageId,
+          currentIndex: updatedHistoryWithPageId.length - 1,
+        },
+      }
+      return pageIdState
+
     default:
       return state
   }

@@ -1,3 +1,5 @@
+import React from 'react'
+
 export type WebEditorButtons =
   | 'text'
   | 'container'
@@ -13,4 +15,12 @@ export type WebEditorButtons =
   | 'image'
   | null
   | '3Col'
+
+export const defaultStyles: React.CSSProperties = {
+  backgroundPosition: 'center',
+  objectFit: 'cover',
+  backgroundRepeat: 'no-repeat',
+  textAlign: 'left',
+  opacity: '100%',
+}
 
